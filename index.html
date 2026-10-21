@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="제주 고산, 현무암 돌담에 둘러싸인 돌집 독채. 프라이빗 풀과 중정 화덕이 있는 한 팀 전용 스테이. 1박 220,000원.">
+<meta property="og:title" content="고산스테이">
+<meta property="og:description" content="제주 고산, 돌담 안의 프라이빗 풀을 품은 돌집 독채.">
+<meta property="og:image" content="images/hero-dusk.jpg">
+<meta name="theme-color" content="#23231F">
+</head>
+<body>
+<title>고산스테이</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;700&display=swap">
+<style>
+:root{
+  --ink:#1D1D1B; --ink-2:#4A4A46; --ink-3:#8A8A84;
+  --bg:#FFFFFF; --bg-2:#F5F4F1; --line:#E2E0DB;
+  --dark:#23231F; --dark-2:#2C2C27;
+  --accent:#8A7B5C; --hot:#C0392B;
+  --maxw:1380px; --gut:clamp(18px,4.2vw,60px); --rail:clamp(0px,3.4vw,52px);
+  --ease:cubic-bezier(.22,.7,.26,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,-apple-system,sans-serif;
+  font-weight:300; font-size:clamp(.9rem,1.02vw,.975rem); line-height:1.95;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit; text-decoration:none}
+h1,h2,h3{margin:0; font-weight:200; line-height:1.18; letter-spacing:-.01em}
+p{margin:0}
+::selection{background:var(--ink); color:#fff}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gut)}
+.todo{color:var(--hot); border-bottom:1px dashed currentColor; padding-bottom:1px; white-space:nowrap}
+
+/* ===== nav ===== */
+.nav{position:fixed; inset:0 0 auto 0; z-index:80; display:flex; align-items:center; gap:clamp(12px,2vw,34px);
+  padding:14px var(--gut); transition:background .45s var(--ease), box-shadow .45s var(--ease)}
+.nav.stuck{background:rgba(255,255,255,.96); backdrop-filter:blur(10px); box-shadow:0 1px 0 var(--line)}
+.logo{display:flex; flex-direction:column; gap:3px; margin-right:auto; color:#fff; transition:color .45s; flex:none}
+.logo b{font-weight:300; font-size:clamp(1rem,1.4vw,1.18rem); letter-spacing:.34em}
+.logo span{font-size:.56rem; letter-spacing:.3em; opacity:.8}
+.nav.stuck .logo{color:var(--ink)}
+.menu{display:flex; gap:clamp(12px,1.9vw,30px)}
+.menu a{font-size:.74rem; letter-spacing:.17em; color:#fff; opacity:.92; position:relative; padding-block:6px; transition:color .4s, opacity .3s}
+.menu a::after{content:""; position:absolute; left:0; right:100%; bottom:2px; height:1px; background:currentColor; transition:right .4s var(--ease)}
+.menu a:hover::after{right:0}
+.nav.stuck .menu a{color:var(--ink); opacity:1}
+.resv{display:inline-flex; align-items:center; gap:8px; font-size:.74rem; letter-spacing:.14em; color:#fff;
+  border:1px solid rgba(255,255,255,.55); padding:9px 17px; border-radius:2px; transition:all .4s var(--ease);
+  white-space:nowrap; flex:none}
+.resv:hover{background:#fff; color:var(--ink); border-color:#fff}
+.nav.stuck .resv{color:var(--ink); border-color:var(--line)}
+.nav.stuck .resv:hover{background:var(--ink); color:#fff; border-color:var(--ink)}
+@media(max-width:1000px){.menu{display:none}}
+
+/* ===== left rail ===== */
+.rail{position:fixed; left:0; top:0; bottom:0; width:var(--rail); z-index:70; pointer-events:none;
+  display:flex; align-items:center; justify-content:center}
+.rail i{position:absolute; left:50%; top:26%; bottom:26%; width:1px; background:rgba(255,255,255,.3); transition:background .5s}
+.rail.on-light i{background:var(--line)}
+.rail b{position:relative; font-weight:300; font-size:.63rem; letter-spacing:.2em; color:#fff;
+  background:var(--dark); padding:7px 0; writing-mode:vertical-rl; transition:color .5s, background .5s; white-space:nowrap}
+.rail.on-light b{color:var(--ink-2); background:#fff}
+@media(max-width:860px){.rail{display:none}}
+
+/* ===== hero ===== */
+.hero{position:relative; height:100svh; min-height:540px; overflow:hidden; background:var(--dark)}
+.sl{position:absolute; inset:0; margin:0; opacity:0; transition:opacity 1.5s var(--ease)}
+.sl.on{opacity:1}
+.sl img{width:100%; height:100%; object-fit:cover; transform:scale(1.08); transition:transform 9s linear}
+.sl.on img{transform:scale(1)}
+.hero::after{content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg,rgba(25,25,22,.52),rgba(25,25,22,.12) 34%,rgba(25,25,22,.62))}
+.hero-txt{position:absolute; z-index:3; left:0; right:0; bottom:clamp(96px,16vh,170px); text-align:center; color:#fff; padding-inline:var(--gut)}
+.hero-txt h1{font-size:clamp(1.9rem,5.4vw,4.3rem); letter-spacing:.3em; text-indent:.3em; font-weight:200}
+.hero-txt p{margin-top:clamp(14px,2vw,22px); font-size:clamp(.82rem,1.2vw,1rem); letter-spacing:.1em; font-weight:200; opacity:.92}
+.sl-ui{position:absolute; z-index:4; left:calc(var(--gut) + var(--rail)); bottom:clamp(26px,5vh,54px); display:flex; align-items:center; gap:16px; color:#fff}
+.sl-ui button{background:none; border:0; color:#fff; cursor:pointer; padding:8px; line-height:0; opacity:.8; transition:opacity .3s}
+.sl-ui button:hover{opacity:1}
+.sl-ui .n{font-size:clamp(1.3rem,2.6vw,2rem); font-weight:200; letter-spacing:.06em; font-variant-numeric:tabular-nums}
+.sl-ui .n small{font-size:.5em; opacity:.6}
+.scrolldown{position:absolute; z-index:4; left:50%; transform:translateX(-50%); bottom:clamp(26px,5vh,54px);
+  width:1px; height:46px; background:linear-gradient(#fff,rgba(255,255,255,0)); animation:cue 2.6s var(--ease) infinite}
+@keyframes cue{0%{transform:translateX(-50%) scaleY(.15); transform-origin:top}
+ 50%{transform:translateX(-50%) scaleY(1); transform-origin:top}
+ 51%{transform-origin:bottom} 100%{transform:translateX(-50%) scaleY(.15); transform-origin:bottom}}
+
+/* ===== panel (dark photo section) ===== */
+.pan{position:relative; min-height:100svh; display:flex; align-items:center; padding-block:clamp(90px,12vw,140px); overflow:hidden; color:#fff}
+.pan-bg{position:absolute; inset:0; z-index:0; background:var(--dark)}
+.pan-bg img{width:100%; height:100%; object-fit:cover; filter:brightness(.42) saturate(.72)}
+.pan::before{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(90deg,rgba(26,26,23,.82) 0%,rgba(26,26,23,.55) 48%,rgba(26,26,23,.42) 100%)}
+.pan>.wrap{position:relative; z-index:2; width:100%; padding-left:calc(var(--gut) + var(--rail))}
+.duo{display:grid; gap:clamp(26px,4vw,60px); align-items:center}
+@media(min-width:960px){.duo{grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr)}}
+.eyebrow{font-size:.68rem; letter-spacing:.2em; color:rgba(255,255,255,.62); font-weight:300}
+.title{font-size:clamp(2.1rem,5vw,3.9rem); font-weight:200; letter-spacing:.01em; margin:.18em 0 .5em}
+.kor{font-size:clamp(1rem,1.5vw,1.2rem); font-weight:500; letter-spacing:.02em; margin-bottom:.9em}
+.lede{color:rgba(255,255,255,.9); max-width:40ch; font-size:.9rem; line-height:2.05}
+.feat{margin:0; position:relative}
+.feat img{width:100%; aspect-ratio:4/3; object-fit:cover}
+.feat figcaption{margin-top:10px; font-size:.66rem; letter-spacing:.14em; color:rgba(255,255,255,.55)}
+
+/* spec */
+.spec{margin-top:clamp(22px,3vw,34px); border-top:1px solid rgba(255,255,255,.22)}
+.spec div{display:grid; grid-template-columns:7.5em 1fr; gap:14px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,.14)}
+.spec dt{font-size:.68rem; letter-spacing:.16em; color:rgba(255,255,255,.55); margin:0}
+.spec dd{margin:0; font-size:.84rem; color:#fff; font-weight:300}
+.pan .todo{color:#F0C27A}
+
+/* ===== light block ===== */
+.lite{background:var(--bg); padding-block:clamp(80px,10vw,130px)}
+.lite.alt{background:var(--bg-2)}
+.lite>.wrap{padding-left:calc(var(--gut) + var(--rail))}
+.head{margin-bottom:clamp(30px,4vw,52px)}
+.head .eyebrow{color:var(--ink-3)}
+.head .title{color:var(--ink)}
+.head .kor{color:var(--ink)}
+.head .lede{color:var(--ink-2); max-width:52ch}
+
+/* ===== carousel ===== */
+.caro{position:relative}
+.track{display:flex; gap:clamp(10px,1.4vw,18px); overflow-x:auto; scroll-snap-type:x mandatory;
+  scrollbar-width:none; -ms-overflow-style:none; padding-bottom:4px}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 clamp(250px,42vw,540px); scroll-snap-align:start; margin:0; cursor:zoom-in}
+.card img{width:100%; aspect-ratio:4/3; object-fit:cover; transition:filter .5s var(--ease)}
+.card:hover img{filter:brightness(1.07)}
+.card figcaption{margin-top:10px; font-size:.68rem; letter-spacing:.12em; color:var(--ink-3)}
+.pan .card figcaption{color:rgba(255,255,255,.55)}
+.caro-ui{display:flex; align-items:center; gap:14px; margin-top:clamp(18px,2.4vw,26px)}
+.caro-ui button{width:42px; height:42px; border:1px solid var(--line); background:none; color:var(--ink);
+  cursor:pointer; border-radius:50%; display:grid; place-items:center; transition:all .35s var(--ease)}
+.caro-ui button:hover{background:var(--ink); color:#fff; border-color:var(--ink)}
+.caro-ui .n{font-size:.76rem; letter-spacing:.14em; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.pan .caro-ui button{border-color:rgba(255,255,255,.4); color:#fff}
+.pan .caro-ui button:hover{background:#fff; color:var(--ink)}
+.pan .caro-ui .n{color:rgba(255,255,255,.6)}
+
+/* ===== rate table / notice ===== */
+.rate{width:100%; border-collapse:collapse; font-size:.82rem; min-width:580px}
+.rate th,.rate td{border:1px solid var(--line); padding:14px 16px; text-align:center; font-weight:300}
+.rate thead th{background:var(--bg-2); font-size:.72rem; letter-spacing:.14em; color:var(--ink-2)}
+.rate tbody th{text-align:left; font-weight:400; line-height:1.7}
+.rate tbody th small{display:block; color:var(--ink-3); font-size:.72em; letter-spacing:.06em}
+.rate .won{font-size:1.02rem; font-weight:400; font-variant-numeric:tabular-nums}
+.scrollx{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.notice{display:grid; gap:clamp(30px,4vw,50px); margin-top:clamp(40px,5vw,66px)}
+@media(min-width:900px){.notice{grid-template-columns:repeat(2,1fr)}}
+.nblock h3{font-size:.95rem; font-weight:500; letter-spacing:.02em; padding-bottom:10px; border-bottom:1px solid var(--ink); display:inline-block}
+.nblock ul{list-style:none; margin:16px 0 0; padding:0; display:grid; gap:7px}
+.nblock li{font-size:.82rem; color:var(--ink-2); padding-left:12px; position:relative; line-height:1.9}
+.nblock li::before{content:"·"; position:absolute; left:0; color:var(--ink-3)}
+
+/* ===== location ===== */
+.loc{display:grid; gap:clamp(26px,4vw,56px)}
+@media(min-width:960px){.loc{grid-template-columns:1fr 1fr}}
+.loc dl{margin:0; border-top:1px solid var(--line)}
+.loc dl>div{display:grid; grid-template-columns:6.5em 1fr; gap:14px; padding:14px 0; border-bottom:1px solid var(--line)}
+.loc dt{font-size:.7rem; letter-spacing:.16em; color:var(--ink-3)}
+.loc dd{margin:0; font-size:.86rem; color:var(--ink-2)}
+.loc .feat img{aspect-ratio:16/11}
+.loc .feat figcaption{color:var(--ink-3)}
+
+/* ===== quick buttons ===== */
+.quick{position:fixed; right:clamp(10px,1.6vw,22px); bottom:clamp(10px,1.6vw,22px); z-index:85;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; justify-items:end}
+.quick a{display:inline-flex; align-items:center; gap:8px; background:#fff; color:var(--ink);
+  border:1px solid var(--line); border-radius:999px; padding:9px 15px; font-size:.75rem; font-weight:400;
+  letter-spacing:.02em; box-shadow:0 6px 20px rgba(0,0,0,.14); transition:transform .3s var(--ease), background .3s}
+.quick a:hover{transform:translateY(-2px)}
+.quick a.kk{background:#FAE100; border-color:#FAE100}
+.quick a.ig{background:#fff}
+.quick svg{width:17px; height:17px; flex:none}
+@media(max-width:620px){.quick{grid-template-columns:1fr} .quick a{padding:8px 13px; font-size:.7rem}}
+
+/* ===== footer ===== */
+footer{background:var(--dark); color:rgba(255,255,255,.62); padding:clamp(50px,7vw,86px) 0 clamp(90px,10vw,110px); font-size:.76rem; line-height:2}
+footer .wrap{padding-left:calc(var(--gut) + var(--rail)); display:grid; gap:clamp(26px,4vw,50px)}
+@media(min-width:900px){footer .wrap{grid-template-columns:1.1fr .9fr; align-items:start}}
+.fnum{font-size:clamp(1.3rem,2.6vw,1.9rem); color:#fff; font-weight:200; letter-spacing:.04em; margin:6px 0 4px; font-variant-numeric:tabular-nums}
+.flab{font-size:.68rem; letter-spacing:.2em; color:rgba(255,255,255,.45)}
+.fbiz{margin-top:18px; font-size:.72rem; color:rgba(255,255,255,.42); line-height:2.1}
+footer .todo{color:#F0C27A}
+
+/* reveal */
+.rv{opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease), transform .9s var(--ease)}
+.rv.in{opacity:1; transform:none}
+
+/* lightbox */
+.lb{position:fixed; inset:0; z-index:95; background:rgba(16,16,14,.96); display:none; align-items:center; justify-content:center; padding:clamp(14px,4vw,54px); opacity:0; transition:opacity .3s}
+.lb.open{display:flex} .lb.show{opacity:1}
+.lb img{max-width:100%; max-height:84svh; object-fit:contain}
+.lb p{position:absolute; left:0; right:0; bottom:clamp(14px,3vw,28px); text-align:center; color:rgba(255,255,255,.7); font-size:.74rem; letter-spacing:.14em}
+.lb button{position:absolute; width:46px; height:46px; border-radius:50%; border:1px solid rgba(255,255,255,.35);
+  background:none; color:#fff; cursor:pointer; display:grid; place-items:center; transition:all .3s}
+.lb button:hover{background:#fff; color:var(--ink)}
+.lb .pv{left:clamp(10px,2.4vw,30px)} .lb .nx{right:clamp(10px,2.4vw,30px)} .lb .cl{top:clamp(14px,3vw,26px); right:clamp(10px,2.4vw,30px)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+  html{scroll-behavior:auto} .rv{opacity:1; transform:none} .sl img{transform:none}
+}
+</style>
+
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top"><b>고산스테이</b><span>GOSAN STAY &middot; JEJU</span></a>
+  <nav class="menu">
+    <a href="#prologue">PROLOGUE</a><a href="#stay">STAY</a><a href="#pool">POOL</a>
+    <a href="#rooms">ROOMS</a><a href="#facility">FACILITY</a>
+    <a href="#reservation">RESERVATION</a><a href="#location">LOCATION</a>
+  </nav>
+  <a class="resv" href="#reservation">예약문의 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg></a>
+</header>
+
+<div class="rail" id="rail"><i></i><b id="railTxt">prologue</b></div>
+
+<main id="top">
+
+<div class="hero" id="hero">
+  <figure class="sl on" data-i="0"><img class="" src="images/hero-dusk.jpg" alt="블루아워의 중정 풀" width="1400" height="1050" sizes="100vw" decoding="async"></figure><figure class="sl" data-i="1"><img class="" src="images/pool-sky.jpg" alt="차양막 아래 오후" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></figure><figure class="sl" data-i="2"><img class="" src="images/night-wide.jpg" alt="조명이 켜진 중정" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></figure><figure class="sl" data-i="3"><img class="" src="images/court-wide.jpg" alt="중정 전경" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></figure><figure class="sl" data-i="4"><img class="" src="images/facade-path.jpg" alt="현관으로 이어지는 길" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></figure>
+  <div class="hero-txt">
+    <h1>고산스테이</h1>
+    <p>제주 고산 &middot; 돌담이 품은 독채와 프라이빗 풀</p>
+  </div>
+  <div class="sl-ui">
+    <button class="pv" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="n"><b id="slN">01</b><small> / 05</small></span>
+    <button class="nx" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <span class="scrolldown"></span>
+</div>
+
+<section class="pan" id="prologue" data-rail="prologue">
+  <div class="pan-bg"><img class="" src="images/court-green.jpg" alt="야자수와 돌담" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></div>
+  <div class="wrap">
+    <div class="duo">
+      <div class="rv">
+        <p class="eyebrow">welcome to</p>
+        <h2 class="title">Prologue</h2>
+        <p class="kor">밭담이 끝나는 자리, 돌집 한 채</p>
+        <p class="lede">제주 서쪽 고산. 바다로 기우는 들판 끝에서 현무암 담이 한 번 꺾이면 붉은 지붕을 인 옛 돌집이 나옵니다. 벽은 그대로 두고 안쪽만 비워 다시 지었습니다. 서까래는 드러내고, 바닥은 원목으로 깔고, 집이 품고 있던 가운데 마당에는 물을 채웠습니다.<br><br>한 팀만 묵습니다. 문을 닫으면 담 안쪽의 물과 불, 바람 소리가 모두 당신의 것이 됩니다.</p>
+      </div>
+      <figure class="feat rv"><img class="" src="images/aerial-view.jpg" alt="고산 들판 위에서" width="1536" height="864" sizes="(min-width:960px) 56vw, 92vw" loading="lazy" decoding="async"><figcaption>고산 들판 위에서</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="pan" id="stay" data-rail="stay">
+  <div class="pan-bg"><img class="" src="images/facade-stone.jpg" alt="돌과 미장의 외벽" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></div>
+  <div class="wrap">
+    <div class="duo">
+      <div class="rv">
+        <p class="eyebrow">room type</p>
+        <h2 class="title">Stone House</h2>
+        <p class="kor">돌집 독채</p>
+        <p class="lede">천장을 뜯어내 서까래를 드러냈습니다. 살문을 모두 열면 복도 끝까지 빛이 들어오고, 통원목 테이블이 놓인 다이닝과 마루 거실이 하나로 이어집니다. 돌벽은 손대지 않은 그대로입니다.</p>
+        <dl class="spec">
+          <div><dt>구성</dt><dd>돌집 독채 1동 &middot; 한 팀 단독 사용</dd></div>
+          <div><dt>규모</dt><dd><span class="todo">00</span>m&sup2; (<span class="todo">00</span>평) / 침실 <span class="todo">0</span> &middot; 욕실 <span class="todo">0</span></dd></div>
+          <div><dt>인원</dt><dd>기준 <span class="todo">0</span>명 / 최대 <span class="todo">0</span>명</dd></div>
+          <div><dt>요금</dt><dd>1박 220,000원</dd></div>
+          <div><dt>시설</dt><dd>프라이빗 풀, 중정 화덕, BBQ 그릴, 주방, 다이닝, 빔프로젝터</dd></div>
+        </dl>
+      </div>
+      <figure class="feat rv"><img class="" src="images/living-wide.jpg" alt="마루와 살문" width="1400" height="1050" sizes="(min-width:960px) 56vw, 92vw" loading="lazy" decoding="async"><figcaption>마루와 살문</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="lite alt" data-rail="stay">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">stay preview</p>
+      <p class="kor" style="font-size:clamp(1.3rem,2.6vw,1.9rem); font-weight:200; margin:.3em 0 .6em">보와 돌, 그리고 빛</p>
+      <p class="lede">복도와 거실, 다이닝과 창. 집이 하루 동안 빛을 받아들이는 방식.</p>
+    </div>
+    <div class="rv"><div class="caro" id="caroHouse">
+      <div class="track"><figure class="card" data-img="hall-dining"><img class="" src="images/hall-dining.jpg" alt="복도형 다이닝" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>복도형 다이닝</figcaption></figure><figure class="card" data-img="living-wide"><img class="" src="images/living-wide.jpg" alt="마루와 살문" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>마루와 살문</figcaption></figure><figure class="card" data-img="stone-door"><img class="" src="images/stone-door.jpg" alt="돌벽과 살문" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>돌벽과 살문</figcaption></figure><figure class="card" data-img="hall-beam"><img class="" src="images/hall-beam.jpg" alt="드러난 서까래" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>드러난 서까래</figcaption></figure><figure class="card" data-img="hall-long"><img class="" src="images/hall-long.jpg" alt="긴 복도" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>긴 복도</figcaption></figure><figure class="card" data-img="door-garden"><img class="" src="images/door-garden.jpg" alt="정원으로 열리는 문" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>정원으로 열리는 문</figcaption></figure><figure class="card" data-img="window-round"><img class="" src="images/window-round.jpg" alt="둥근 창과 살창" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>둥근 창과 살창</figcaption></figure><figure class="card" data-img="detail-mirror"><img class="" src="images/detail-mirror.jpg" alt="라운드 미러와 팜파스" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>라운드 미러와 팜파스</figcaption></figure><figure class="card" data-img="window-glass"><img class="" src="images/window-glass.jpg" alt="유리블록 창" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>유리블록 창</figcaption></figure></div>
+      <div class="caro-ui">
+        <button class="pv" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="nx" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        <span class="n"><b>01</b> / 09</span>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="pan" id="pool" data-rail="pool">
+  <div class="pan-bg"><img class="" src="images/pool-sky.jpg" alt="차양막 아래 오후" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></div>
+  <div class="wrap">
+    <div class="rv" style="max-width:46ch">
+      <p class="eyebrow">facility</p>
+      <h2 class="title">Private Pool</h2>
+      <p class="kor">담 안에 가둔 물</p>
+      <p class="lede">중정 한가운데 길게 누운 풀. 담이 시선을 끊어 주기 때문에 수영복 차림 그대로 데크를 걸어도 괜찮습니다. 낮에는 차양막이 햇빛을 걸러 물빛을 옥색으로 바꾸고, 해가 기울면 수면이 하늘색을 그대로 받아 둡니다.</p>
+    </div>
+    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="caro" id="caroPool">
+      <div class="track"><figure class="card" data-img="pool-deck"><img class="" src="images/pool-deck.jpg" alt="우드 데크와 프라이빗 풀" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>우드 데크와 프라이빗 풀</figcaption></figure><figure class="card" data-img="pool-edge"><img class="" src="images/pool-edge.jpg" alt="풀 가장자리" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>풀 가장자리</figcaption></figure><figure class="card" data-img="pool-lounge"><img class="" src="images/pool-lounge.jpg" alt="풀사이드 라운지" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>풀사이드 라운지</figcaption></figure><figure class="card" data-img="court-path"><img class="" src="images/court-path.jpg" alt="현무암 디딤돌 길" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>현무암 디딤돌 길</figcaption></figure><figure class="card" data-img="court-green"><img class="" src="images/court-green.jpg" alt="야자수와 돌담" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>야자수와 돌담</figcaption></figure><figure class="card" data-img="night-pit"><img class="" src="images/night-pit.jpg" alt="불을 피우는 자리" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>불을 피우는 자리</figcaption></figure></div>
+      <div class="caro-ui">
+        <button class="pv" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="nx" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        <span class="n"><b>01</b> / 06</span>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="lite" id="rooms" data-rail="rooms">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">room type</p>
+      <h2 class="title">Rooms</h2>
+      <p class="kor">결이 서로 다른 방들</p>
+      <p class="lede">같은 방이 하나도 없습니다. 돌벽을 등진 방, 서까래가 낮게 내려앉은 방, 화장대와 라운드 미러를 둔 방, 요를 더 깔 수 있는 방. 원목 프레임 위에 흰 침구만 올렸습니다.</p>
+    </div>
+    <div class="rv"><div class="caro" id="caroRooms">
+      <div class="track"><figure class="card" data-img="room-vanity"><img class="" src="images/room-vanity.jpg" alt="화장대가 있는 침실" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>화장대가 있는 침실</figcaption></figure><figure class="card" data-img="room-beam"><img class="" src="images/room-beam.jpg" alt="서까래 아래 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>서까래 아래 침실</figcaption></figure><figure class="card" data-img="room-wood"><img class="" src="images/room-wood.jpg" alt="원목 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>원목 침실</figcaption></figure><figure class="card" data-img="room-blind"><img class="" src="images/room-blind.jpg" alt="블라인드 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>블라인드 침실</figcaption></figure><figure class="card" data-img="room-tv"><img class="" src="images/room-tv.jpg" alt="거실형 침실" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>거실형 침실</figcaption></figure><figure class="card" data-img="room-plaster"><img class="" src="images/room-plaster.jpg" alt="미장벽 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>미장벽 침실</figcaption></figure><figure class="card" data-img="room-stone"><img class="" src="images/room-stone.jpg" alt="돌벽 옆 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>돌벽 옆 침실</figcaption></figure><figure class="card" data-img="room-twin"><img class="" src="images/room-twin.jpg" alt="요를 깐 침실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>요를 깐 침실</figcaption></figure></div>
+      <div class="caro-ui">
+        <button class="pv" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="nx" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        <span class="n"><b>01</b> / 08</span>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="pan" id="facility" data-rail="facility">
+  <div class="pan-bg"><img class="" src="images/night-fire.jpg" alt="밤의 화덕" width="1400" height="1050" sizes="100vw" loading="lazy" decoding="async"></div>
+  <div class="wrap">
+    <div class="rv" style="max-width:46ch">
+      <p class="eyebrow">facility</p>
+      <h2 class="title">Facility</h2>
+      <p class="kor">씻고, 끓이고, 둘러앉는</p>
+      <p class="lede">짙은 그린 타일을 깐 욕실과 원목을 깎아 앉힌 세면대, 창을 마주 본 싱크대. 식기와 잔은 선반에 꺼내 두었습니다. 해가 지면 담 위로 전구가 켜지고, 돌을 쌓아 만든 화덕에 불을 넣습니다.</p>
+    </div>
+    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="caro" id="caroFac">
+      <div class="track"><figure class="card" data-img="kitchen-sink"><img class="" src="images/kitchen-sink.jpg" alt="주방" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>주방</figcaption></figure><figure class="card" data-img="dining-table"><img class="" src="images/dining-table.jpg" alt="통원목 다이닝 테이블" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>통원목 다이닝 테이블</figcaption></figure><figure class="card" data-img="bath-green"><img class="" src="images/bath-green.jpg" alt="그린 타일 욕실" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>그린 타일 욕실</figcaption></figure><figure class="card" data-img="bath-tub"><img class="" src="images/bath-tub.jpg" alt="욕조" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>욕조</figcaption></figure><figure class="card" data-img="bath-basin"><img class="" src="images/bath-basin.jpg" alt="원목 세면대" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>원목 세면대</figcaption></figure><figure class="card" data-img="detail-dishes"><img class="" src="images/detail-dishes.jpg" alt="그릇 선반" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>그릇 선반</figcaption></figure><figure class="card" data-img="detail-glasses"><img class="" src="images/detail-glasses.jpg" alt="유리잔" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>유리잔</figcaption></figure><figure class="card" data-img="kitchen-window"><img class="" src="images/kitchen-window.jpg" alt="창가 싱크" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>창가 싱크</figcaption></figure><figure class="card" data-img="bath-amenity"><img class="" src="images/bath-amenity.jpg" alt="어메니티 선반" width="1050" height="1400" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>어메니티 선반</figcaption></figure><figure class="card" data-img="detail-books"><img class="" src="images/detail-books.jpg" alt="책 한 칸" width="1400" height="1050" sizes="(min-width:900px) 46vw, 86vw" loading="lazy" decoding="async"><figcaption>책 한 칸</figcaption></figure></div>
+      <div class="caro-ui">
+        <button class="pv" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="nx" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        <span class="n"><b>01</b> / 10</span>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="lite alt" id="reservation" data-rail="reservation">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">booking</p>
+      <h2 class="title">Reservation</h2>
+      <p class="kor">객실 요금표</p>
+      <p class="lede">예약 문의 : <span class="todo">010-0000-0000</span> 으로 전화 주시면 안내해 드립니다.</p>
+    </div>
+    <div class="scrollx rv">
+      <table class="rate">
+        <thead><tr><th>객실명 (기준~최대)</th><th>주중 (일~목)</th><th>주말 (금·토)</th><th>성수기</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>고산스테이 돌집 독채<small>프라이빗 풀 / 화덕 / BBQ</small><small>기준 <span class="todo">0</span>명 / 최대 <span class="todo">0</span>명</small></th>
+            <td class="won">220,000</td>
+            <td class="won"><span class="todo">요금 입력</span></td>
+            <td class="won"><span class="todo">요금 입력</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notice">
+      <div class="nblock rv">
+        <h3>이용 안내</h3>
+        <ul>
+          <li>입실 : <span class="todo">00</span>시 / 퇴실 : <span class="todo">00</span>시</li>
+          <li>한 팀만 사용하는 독채입니다. 기준 인원 초과 시 사전에 알려 주세요.</li>
+          <li>전 객실 금연이며, 실내 흡연 시 추가 비용이 발생합니다.</li>
+          <li>반려동물 동반은 <span class="todo">가능 / 불가 입력</span>합니다.</li>
+          <li>늦은 시간 도착 예정이시면 미리 연락 주시기 바랍니다.</li>
+        </ul>
+      </div>
+      <div class="nblock rv">
+        <h3>풀 &middot; 바비큐 &middot; 화덕 안내</h3>
+        <ul>
+          <li>수영장 운영 기간 : <span class="todo">운영 기간 입력</span> (온수 <span class="todo">여부 입력</span>)</li>
+          <li>바비큐 그릴 이용료 : <span class="todo">00,000</span>원 (현장 결제)</li>
+          <li>화덕 장작 : <span class="todo">00,000</span>원 (현장 결제)</li>
+          <li>우천 시에는 바비큐와 화덕 이용이 어려울 수 있습니다.</li>
+        </ul>
+      </div>
+      <div class="nblock rv">
+        <h3>예약 안내</h3>
+        <ul>
+          <li>전화 또는 인스타그램 메시지로 날짜와 인원을 알려 주세요.</li>
+          <li>예약금 입금이 확인되면 예약이 확정됩니다.</li>
+          <li>입금 계좌 : <span class="todo">은행 / 계좌번호 / 예금주 입력</span></li>
+        </ul>
+      </div>
+      <div class="nblock rv">
+        <h3>환불 규정</h3>
+        <ul>
+          <li>취소 수수료는 예약 시점과 무관하게 이용일을 기준으로 합니다.</li>
+          <li>이용 <span class="todo">0</span>일 전까지 : 전액 환불</li>
+          <li>이용 <span class="todo">0</span>일 전 ~ 당일 : <span class="todo">취소 수수료 기준 입력</span></li>
+          <li>천재지변 등으로 이용이 어려운 경우 별도 협의합니다.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lite" id="location" data-rail="location">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">directions</p>
+      <h2 class="title">Location</h2>
+      <p class="kor">찾아오시는 길</p>
+      <p class="lede">제주공항에서 서쪽 해안을 따라 한 시간 남짓. 고산리 들판 사이로 난 길 끝, 붉은 지붕과 현무암 담을 찾으시면 됩니다.</p>
+    </div>
+    <div class="loc">
+      <div class="rv">
+        <dl>
+          <div><dt>주소</dt><dd>제주특별자치도 제주시 한경면 고산리 <span class="todo">상세 주소 입력</span></dd></div>
+          <div><dt>내비</dt><dd>목적지에 <span class="todo">내비 검색어 입력</span> 또는 위 주소를 입력하세요.</dd></div>
+          <div><dt>자가용</dt><dd>제주국제공항에서 평화로(1135) &rarr; 일주서로(1132) 경유, 약 <span class="todo">00</span>km &middot; <span class="todo">00</span>분</dd></div>
+          <div><dt>버스</dt><dd>제주공항에서 서회선 급행 <span class="todo">노선번호</span> 탑승 후 <span class="todo">정류장명</span> 하차, 도보 <span class="todo">00</span>분</dd></div>
+          <div><dt>주차</dt><dd>마당 안에 <span class="todo">0</span>대까지 주차할 수 있습니다.</dd></div>
+          <div><dt>주변</dt><dd><span class="todo">수월봉 · 차귀도 등 주변 명소와 소요 시간 입력</span></dd></div>
+        </dl>
+      </div>
+      <figure class="feat rv"><img class="" src="images/aerial-top.jpg" alt="붉은 지붕과 중정" width="1453" height="864" sizes="(min-width:960px) 46vw, 92vw" loading="lazy" decoding="async"><figcaption>붉은 지붕과 중정</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer data-rail="contact">
+  <div class="wrap">
+    <div>
+      <p class="flab">예약문의</p>
+      <p class="fnum"><span class="todo">010-0000-0000</span></p>
+      <p>고산스테이 &middot; 제주 돌집 독채</p>
+      <p class="fbiz">
+        대표 : <span class="todo">대표자명 입력</span><br>
+        주소 : 제주특별자치도 제주시 한경면 고산리 <span class="todo">상세 주소 입력</span><br>
+        사업자등록번호 : <span class="todo">000-00-00000</span><br>
+        농어촌민박사업자 신고번호 : <span class="todo">제 0000-00호</span>
+      </p>
+    </div>
+    <div>
+      <p class="flab">follow</p>
+      <p class="fbiz" style="margin-top:8px">
+        인스타그램 : <span class="todo">@아이디 입력</span><br>
+        네이버 예약 : <span class="todo">예약 페이지 주소 입력</span><br>
+        카카오톡 채널 : <span class="todo">채널 주소 입력</span>
+      </p>
+      <p class="fbiz">&copy; GOSAN STAY. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="quick">
+  <a class="ig" href="#reservation"><svg viewBox="0 0 24 24" fill="none" stroke="#C13584" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="#C13584" stroke="none"/></svg>인스타그램</a>
+  <a href="#reservation"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#03C75A"/><path d="M8 7h3l2.6 4V7H17v10h-3l-2.6-4v4H8z" fill="#fff"/></svg>네이버예약</a>
+  <a href="#reservation"><svg viewBox="0 0 24 24" fill="none" stroke="#E04B3A" stroke-width="1.8" stroke-linecap="round"><path d="M5 3.5h3.2l1.6 4-2 1.4a12 12 0 0 0 5.8 5.8l1.4-2 4 1.6V20c-9 0-16-7-16-16Z"/></svg>전화문의</a>
+  <a class="kk" href="#reservation"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="11" rx="9" ry="7.4" fill="#3C1E1E"/><path d="M8 17.4 6.6 21l4.2-2.6z" fill="#3C1E1E"/></svg>톡상담</a>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <button class="cl" id="lbCl" aria-label="닫기">&times;</button>
+  <button class="pv" id="lbPv" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <img id="lbIm" src="" alt="">
+  <button class="nx" id="lbNx" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <p id="lbCp"></p>
+</div>
+
+<script>
+(function(){
+  var CAPS = {"hero-dusk": "블루아워의 중정 풀", "pool-deck": "우드 데크와 프라이빗 풀", "pool-sky": "차양막 아래 오후", "pool-edge": "풀 가장자리", "court-wide": "중정 전경", "court-green": "야자수와 돌담", "pool-lounge": "풀사이드 라운지", "court-path": "현무암 디딤돌 길", "night-fire": "밤의 화덕", "night-pit": "불을 피우는 자리", "night-wide": "조명이 켜진 중정", "aerial-top": "붉은 지붕과 중정", "aerial-view": "고산 들판 위에서", "facade-stone": "돌과 미장의 외벽", "facade-path": "현관으로 이어지는 길", "window-round": "둥근 창과 살창", "window-glass": "유리블록 창", "living-wide": "마루와 살문", "hall-dining": "복도형 다이닝", "hall-long": "긴 복도", "hall-beam": "드러난 서까래", "dining-table": "통원목 다이닝 테이블", "door-garden": "정원으로 열리는 문", "stone-door": "돌벽과 살문", "room-vanity": "화장대가 있는 침실", "room-beam": "서까래 아래 침실", "room-tv": "거실형 침실", "room-wood": "원목 침실", "room-blind": "블라인드 침실", "room-twin": "요를 깐 침실", "room-plaster": "미장벽 침실", "room-stone": "돌벽 옆 침실", "bath-green": "그린 타일 욕실", "bath-basin": "원목 세면대", "bath-stone": "돌벽 욕실", "bath-tub": "욕조", "bath-amenity": "어메니티 선반", "kitchen-sink": "주방", "kitchen-window": "창가 싱크", "detail-dishes": "그릇 선반", "detail-glasses": "유리잔", "detail-books": "책 한 칸", "detail-mirror": "라운드 미러와 팜파스"};
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* nav */
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('stuck', scrollY > window.innerHeight * .82); }
+  onScroll(); addEventListener('scroll', onScroll, {passive:true});
+
+  /* hero slideshow */
+  var sls = [].slice.call(document.querySelectorAll('.hero .sl')), si = 0, timer;
+  var slN = document.getElementById('slN');
+  function go(i){
+    si = (i + sls.length) % sls.length;
+    sls.forEach(function(s,k){ s.classList.toggle('on', k === si); });
+    slN.textContent = ('0' + (si+1)).slice(-2);
+  }
+  function play(){ if(reduce) return; clearInterval(timer); timer = setInterval(function(){ go(si+1); }, 6000); }
+  document.querySelector('.sl-ui .pv').addEventListener('click', function(){ go(si-1); play(); });
+  document.querySelector('.sl-ui .nx').addEventListener('click', function(){ go(si+1); play(); });
+  play();
+
+  /* left rail label + light/dark */
+  var rail = document.getElementById('rail'), railTxt = document.getElementById('railTxt');
+  var marks = [].slice.call(document.querySelectorAll('[data-rail]'));
+  function railUp(){
+    var mid = innerHeight * .45, cur = null;
+    marks.forEach(function(m){
+      var r = m.getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) cur = m;
+    });
+    if (!cur) return;
+    railTxt.textContent = cur.getAttribute('data-rail');
+    rail.classList.toggle('on-light', cur.classList.contains('lite'));
+  }
+  railUp(); addEventListener('scroll', railUp, {passive:true});
+
+  /* reveal */
+  var rvs = [].slice.call(document.querySelectorAll('.rv'));
+  if (reduce || !('IntersectionObserver' in window)) rvs.forEach(function(e){ e.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -6% 0px', threshold:.05});
+    rvs.forEach(function(e){ io.observe(e); });
+  }
+
+  /* carousels */
+  [].slice.call(document.querySelectorAll('.caro')).forEach(function(c){
+    var tr = c.querySelector('.track'), n = c.querySelector('.n b');
+    var cards = [].slice.call(tr.children);
+    function step(){ return cards[0] ? cards[0].getBoundingClientRect().width + 14 : 300; }
+    c.querySelector('.caro-ui .pv').addEventListener('click', function(){ tr.scrollBy({left:-step(), behavior:'smooth'}); });
+    c.querySelector('.caro-ui .nx').addEventListener('click', function(){ tr.scrollBy({left: step(), behavior:'smooth'}); });
+    tr.addEventListener('scroll', function(){
+      var i = Math.round(tr.scrollLeft / step()) + 1;
+      n.textContent = ('0' + Math.min(Math.max(i,1), cards.length)).slice(-2);
+    }, {passive:true});
+  });
+
+  /* lightbox */
+  var cardEls = [].slice.call(document.querySelectorAll('.card'));
+  var order = cardEls.map(function(c){ return c.getAttribute('data-img'); });
+  var lb = document.getElementById('lb'), im = document.getElementById('lbIm'), cp = document.getElementById('lbCp');
+  var li = 0, prev = null;
+  function show(i){
+    li = (i + order.length) % order.length;
+    im.src = 'images/' + order[li] + '.jpg';
+    im.alt = CAPS[order[li]] || ''; cp.textContent = CAPS[order[li]] || '';
+  }
+  function open(i){
+    prev = document.activeElement; show(i); lb.classList.add('open');
+    requestAnimationFrame(function(){ lb.classList.add('show'); });
+    document.body.style.overflow = 'hidden'; document.getElementById('lbCl').focus();
+  }
+  function close(){
+    lb.classList.remove('show');
+    setTimeout(function(){ lb.classList.remove('open'); im.src=''; }, 260);
+    document.body.style.overflow=''; if (prev) prev.focus();
+  }
+  cardEls.forEach(function(c, i){
+    c.tabIndex = 0; c.setAttribute('role','button');
+    c.addEventListener('click', function(){ open(i); });
+    c.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(i); } });
+  });
+  document.getElementById('lbCl').addEventListener('click', close);
+  document.getElementById('lbPv').addEventListener('click', function(){ show(li-1); });
+  document.getElementById('lbNx').addEventListener('click', function(){ show(li+1); });
+  lb.addEventListener('click', function(e){ if (e.target === lb) close(); });
+  addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') close(); else if(e.key==='ArrowLeft') show(li-1); else if(e.key==='ArrowRight') show(li+1);
+  });
+})();
+</script>
+
+</body>
+</html>
