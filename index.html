@@ -69,7 +69,12 @@ p{margin:0}
 @media(max-width:1000px){.menu{display:none} .burger{display:block}}
 
 .drawer{position:fixed; inset:0; z-index:79; background:var(--dark); display:none; flex-direction:column;
-  align-items:center; justify-content:center; gap:clamp(12px,2.6vh,22px); opacity:0; transition:opacity .35s var(--ease)}
+  align-items:center; justify-content:flex-start; gap:clamp(10px,2.4vh,22px); opacity:0;
+  transition:opacity .35s var(--ease); overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:76px var(--gut) 86px}
+.drawer>:first-child{margin-top:auto} .drawer>:last-child{margin-bottom:auto}
+.nav.menuopen .resv{opacity:0; pointer-events:none}
+.nav.menuopen .logo{color:#fff}
 .drawer.open{display:flex} .drawer.show{opacity:1}
 .drawer a{color:#fff; text-align:center; padding:6px 10px}
 .drawer a b{display:block; font-weight:200; font-size:clamp(1rem,4.4vw,1.25rem); letter-spacing:.24em; text-indent:.24em}
@@ -542,23 +547,23 @@ footer .todo{color:#F0C27A}
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* nav */
-  var nav = document.getElementById('nav');
   function onScroll(){ nav.classList.toggle('stuck', scrollY > window.innerHeight * .82); }
   onScroll(); addEventListener('scroll', onScroll, {passive:true});
 
   /* mobile drawer */
+  var nav = document.getElementById('nav');
   var bg = document.getElementById('burger'), dw = document.getElementById('drawer');
   function dwOpen(){
     dw.classList.add('open');
     requestAnimationFrame(function(){ dw.classList.add('show'); });
     bg.classList.add('x'); bg.setAttribute('aria-expanded','true'); bg.setAttribute('aria-label','메뉴 닫기');
-    document.body.style.overflow='hidden';
+    nav.classList.add('menuopen'); document.body.style.overflow='hidden';
   }
   function dwClose(){
     dw.classList.remove('show');
     setTimeout(function(){ dw.classList.remove('open'); }, 320);
     bg.classList.remove('x'); bg.setAttribute('aria-expanded','false'); bg.setAttribute('aria-label','메뉴 열기');
-    document.body.style.overflow='';
+    nav.classList.remove('menuopen'); document.body.style.overflow='';
   }
   bg.addEventListener('click', function(){
     dw.classList.contains('open') ? dwClose() : dwOpen();
