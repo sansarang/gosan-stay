@@ -69,17 +69,17 @@ p{margin:0}
 @media(max-width:1000px){.menu{display:none} .burger{display:block}}
 
 .drawer{position:fixed; inset:0; z-index:79; background:var(--dark); display:none; flex-direction:column;
-  align-items:center; justify-content:flex-start; gap:clamp(10px,2.4vh,22px); opacity:0;
+  align-items:center; justify-content:flex-start; gap:clamp(5px,1.3vh,16px); opacity:0;
   transition:opacity .35s var(--ease); overflow-y:auto; -webkit-overflow-scrolling:touch;
-  padding:76px var(--gut) 86px}
+  padding:94px var(--gut) 80px}
 .drawer>:first-child{margin-top:auto} .drawer>:last-child{margin-bottom:auto}
 .nav.menuopen .resv{opacity:0; pointer-events:none}
 .nav.menuopen .logo{color:#fff}
 .drawer.open{display:flex} .drawer.show{opacity:1}
-.drawer a{color:#fff; text-align:center; padding:6px 10px}
-.drawer a b{display:block; font-weight:200; font-size:clamp(1rem,4.4vw,1.25rem); letter-spacing:.24em; text-indent:.24em}
-.drawer a small{display:block; font-size:.62rem; letter-spacing:.14em; color:rgba(255,255,255,.45); margin-top:5px}
-.drawer .dtel{margin-top:clamp(14px,3vh,26px); border:1px solid rgba(255,255,255,.4); border-radius:999px; padding:11px 26px}
+.drawer a{color:#fff; text-align:center; padding:4px 10px; flex:none}
+.drawer a b{display:block; font-weight:200; font-size:clamp(.95rem,4vw,1.18rem); letter-spacing:.24em; text-indent:.24em; line-height:1.4}
+.drawer a small{display:block; font-size:.6rem; letter-spacing:.14em; color:rgba(255,255,255,.45); margin-top:2px; line-height:1.5}
+.drawer .dtel{margin-top:clamp(10px,2.2vh,22px); border:1px solid rgba(255,255,255,.4); border-radius:999px; padding:11px 26px}
 .drawer .dtel b{font-size:.84rem; letter-spacing:.14em; text-indent:.14em}
 
 /* ===== left rail ===== */
@@ -547,11 +547,11 @@ footer .todo{color:#F0C27A}
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* nav */
+  var nav = document.getElementById('nav');
   function onScroll(){ nav.classList.toggle('stuck', scrollY > window.innerHeight * .82); }
   onScroll(); addEventListener('scroll', onScroll, {passive:true});
 
   /* mobile drawer */
-  var nav = document.getElementById('nav');
   var bg = document.getElementById('burger'), dw = document.getElementById('drawer');
   function dwOpen(){
     dw.classList.add('open');
