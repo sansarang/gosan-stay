@@ -28,7 +28,8 @@ html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:7
 body{margin:0; background:var(--bg); color:var(--ink);
   font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,-apple-system,sans-serif;
   font-weight:300; font-size:clamp(.9rem,1.02vw,.975rem); line-height:1.95;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  word-break:keep-all; overflow-wrap:break-word; line-break:strict}
 img{max-width:100%; height:auto; display:block}
 a{color:inherit; text-decoration:none}
 h1,h2,h3{margin:0; font-weight:200; line-height:1.18; letter-spacing:-.01em}
@@ -143,33 +144,23 @@ p{margin:0}
 
 /* slideshow */
 .show{position:relative; max-width:1120px}
-.stage{position:relative; aspect-ratio:16/10; background:#111; overflow:hidden; cursor:zoom-in;
-  touch-action:pan-y; -webkit-user-select:none; user-select:none}
-.stage:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+.stage{position:relative; aspect-ratio:16/10; background:#111; overflow:hidden; pointer-events:none}
 .sld{position:absolute; inset:0; margin:0; opacity:0; transition:opacity .75s var(--ease); pointer-events:none}
 .sld.on{opacity:1}
 .sld .bd{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   filter:blur(30px) brightness(.45) saturate(.8); transform:scale(1.2)}
 .sld .ph{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2}
-.stage>button{position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:46px; height:46px;
-  border-radius:50%; border:1px solid rgba(255,255,255,.45); background:rgba(20,20,18,.42); color:#fff;
-  cursor:pointer; display:grid; place-items:center; backdrop-filter:blur(6px); transition:all .3s var(--ease)}
-.stage>button:hover{background:#fff; color:var(--ink); border-color:#fff}
-.stage>button svg{width:19px;height:19px}
-.stage .sp{left:clamp(8px,1.2vw,16px)} .stage .sn{right:clamp(8px,1.2vw,16px)}
-.show-ui{display:flex; align-items:center; gap:clamp(12px,2vw,22px); margin-top:clamp(14px,2vw,20px); flex-wrap:wrap}
-.dots{display:flex; gap:8px; flex-wrap:wrap}
-.dot{width:9px; height:9px; padding:0; border-radius:50%; border:1px solid var(--ink-3); background:none;
-  cursor:pointer; transition:all .3s var(--ease)}
-.dot.on{background:var(--ink); border-color:var(--ink); transform:scale(1.25)}
-.ct{font-size:.76rem; letter-spacing:.14em; color:var(--ink-3); font-variant-numeric:tabular-nums}
-.pan .dot{border-color:rgba(255,255,255,.55)}
-.pan .dot.on{background:#fff; border-color:#fff}
-.pan .ct{color:rgba(255,255,255,.65)}
-@media(max-width:760px){
-  .stage{aspect-ratio:4/3}
-  .stage>button{width:40px; height:40px}
-}
+.prog{position:relative; height:2px; background:var(--line); overflow:hidden; margin-top:10px}
+.prog i{position:absolute; left:0; top:0; bottom:0; width:0; background:var(--ink); display:block}
+.show.run .prog i{animation:fill var(--d) linear forwards}
+@keyframes fill{from{width:0} to{width:100%}}
+.show-ui{display:flex; align-items:center; margin-top:clamp(10px,1.4vw,14px)}
+.ct{font-size:.74rem; letter-spacing:.14em; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.pan .prog{background:rgba(255,255,255,.2)}
+.pan .prog i{background:#fff}
+.pan .ct{color:rgba(255,255,255,.6)}
+@media(max-width:760px){ .stage{aspect-ratio:4/3} }
+@media (prefers-reduced-motion: reduce){ .show.run .prog i{animation:none; width:100%} }
 
 /* feature strip */
 .strip{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:clamp(34px,5vw,56px)}
@@ -191,6 +182,19 @@ p{margin:0}
 .rate .won{font-size:1.15rem; font-weight:400; font-variant-numeric:tabular-nums}
 .rate .won small{font-size:.66rem; color:var(--ink-3); margin-left:3px; font-weight:300}
 .scrollx{overflow-x:auto}
+@media(max-width:640px){
+  .scrollx{overflow:visible}
+  .rate{min-width:0; display:block; border:1px solid var(--line)}
+  .rate thead{display:none}
+  .rate tbody,.rate tbody tr{display:block}
+  .rate tbody th,.rate tbody td{display:block; width:100%; border:0; text-align:left}
+  .rate tbody th{background:var(--bg-2); border-bottom:1px solid var(--line); padding:14px 16px}
+  .rate tbody td{display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+    padding:14px 16px; border-bottom:1px solid var(--line)}
+  .rate tbody td:last-child{border-bottom:0}
+  .rate tbody td::before{content:attr(data-l); font-size:.78rem; color:var(--ink-3); letter-spacing:.02em; font-weight:300}
+  .rate .won{font-size:1.1rem}
+}
 .notice{display:grid; gap:clamp(30px,4vw,50px); margin-top:clamp(40px,5vw,66px)}
 @media(min-width:900px){.notice{grid-template-columns:repeat(2,1fr)}}
 .nblock h3{font-size:.95rem; font-weight:500; padding-bottom:10px; border-bottom:1px solid var(--ink); display:inline-block}
@@ -206,7 +210,8 @@ p{margin:0}
 .way:hover{border-color:var(--ink); transform:translateY(-2px)}
 .way svg{width:26px; height:26px; flex:none}
 .way b{display:block; font-weight:400; font-size:.86rem}
-.way span{display:block; font-size:.76rem; color:var(--ink-3); margin-top:2px; word-break:break-all}
+.way span{display:block; font-size:.76rem; color:var(--ink-3); margin-top:2px;
+  word-break:keep-all; overflow-wrap:anywhere}
 
 .addr{font-size:clamp(1rem,1.9vw,1.3rem); color:var(--ink); font-weight:400}
 
@@ -340,7 +345,7 @@ footer .todo{color:#F0C27A}
       <h2 class="title">중정과 수영장</h2>
       <p class="lede">두 채가 감싼 마당 한가운데 길게 누운 물. 담이 시선을 끊어 주기 때문에 수영복 차림 그대로 데크를 걸어도 괜찮습니다. 차양막이 한여름 햇빛을 걸러 줍니다. 기간 제한 없이 이용하실 수 있고, 온수 자쿠지는 따로 신청하시면 됩니다.</p>
     </div>
-    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="out-pool-wide"><img class="bd" src="images/out-pool-wide.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/out-pool-wide.jpg" alt="중정 수영장 — 담이 둘러싼 데크 한가운데, 길게 누운 물" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>중정 수영장</b><span>담이 둘러싼 데크 한가운데, 길게 누운 물</span></figcaption></figure><figure class="sld" data-img="out-pool-close"><img class="bd" data-src="images/out-pool-close.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-pool-close.jpg" alt="물빛 — 차양막이 햇빛을 걸러 물을 옥색으로 바꿉니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>물빛</b><span>차양막이 햇빛을 걸러 물을 옥색으로 바꿉니다</span></figcaption></figure><figure class="sld" data-img="out-lounge"><img class="bd" data-src="images/out-lounge.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-lounge.jpg" alt="풀사이드 — 빈백과 러그를 깔아 둔 물가 자리" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>풀사이드</b><span>빈백과 러그를 깔아 둔 물가 자리</span></figcaption></figure><figure class="sld" data-img="out-court-day"><img class="bd" data-src="images/out-court-day.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-court-day.jpg" alt="담 안쪽 — 밖에서 보이지 않는, 한 팀만의 마당" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>담 안쪽</b><span>밖에서 보이지 않는, 한 팀만의 마당</span></figcaption></figure><figure class="sld" data-img="out-entry"><img class="bd" data-src="images/out-entry.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-entry.jpg" alt="들어서는 길 — 현무암 디딤돌이 현관까지 이어집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>들어서는 길</b><span>현무암 디딤돌이 현관까지 이어집니다</span></figcaption></figure><figure class="sld" data-img="out-table"><img class="bd" data-src="images/out-table.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-table.jpg" alt="돌담 아래 — 바람을 끊어 주는 담 앞 야외 테이블" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌담 아래</b><span>바람을 끊어 주는 담 앞 야외 테이블</span></figcaption></figure><figure class="sld" data-img="out-view"><img class="bd" data-src="images/out-view.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-view.jpg" alt="마당 끝 — 돌담 너머로 오름이 보이는 자리" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>마당 끝</b><span>돌담 너머로 오름이 보이는 자리</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button><button class="dot" aria-label="6번째 사진"></button><button class="dot" aria-label="7번째 사진"></button></div><span class="ct"><b>01</b> / 07</span></div></div></div>
+    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="out-pool-wide"><img class="bd" src="images/out-pool-wide.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/out-pool-wide.jpg" alt="중정 수영장 — 담이 둘러싼 데크 한가운데, 길게 누운 물" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>중정 수영장</b><span>담이 둘러싼 데크 한가운데, 길게 누운 물</span></figcaption></figure><figure class="sld" data-img="out-pool-close"><img class="bd" data-src="images/out-pool-close.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-pool-close.jpg" alt="물빛 — 차양막이 햇빛을 걸러 물을 옥색으로 바꿉니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>물빛</b><span>차양막이 햇빛을 걸러 물을 옥색으로 바꿉니다</span></figcaption></figure><figure class="sld" data-img="out-lounge"><img class="bd" data-src="images/out-lounge.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-lounge.jpg" alt="풀사이드 — 빈백과 러그를 깔아 둔 물가 자리" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>풀사이드</b><span>빈백과 러그를 깔아 둔 물가 자리</span></figcaption></figure><figure class="sld" data-img="out-court-day"><img class="bd" data-src="images/out-court-day.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-court-day.jpg" alt="담 안쪽 — 밖에서 보이지 않는, 한 팀만의 마당" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>담 안쪽</b><span>밖에서 보이지 않는, 한 팀만의 마당</span></figcaption></figure><figure class="sld" data-img="out-entry"><img class="bd" data-src="images/out-entry.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-entry.jpg" alt="들어서는 길 — 현무암 디딤돌이 현관까지 이어집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>들어서는 길</b><span>현무암 디딤돌이 현관까지 이어집니다</span></figcaption></figure><figure class="sld" data-img="out-table"><img class="bd" data-src="images/out-table.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-table.jpg" alt="돌담 아래 — 바람을 끊어 주는 담 앞 야외 테이블" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌담 아래</b><span>바람을 끊어 주는 담 앞 야외 테이블</span></figcaption></figure><figure class="sld" data-img="out-view"><img class="bd" data-src="images/out-view.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-view.jpg" alt="마당 끝 — 돌담 너머로 오름이 보이는 자리" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>마당 끝</b><span>돌담 너머로 오름이 보이는 자리</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 07</span></div></div></div>
   </div>
 </section>
 
@@ -352,7 +357,7 @@ footer .todo{color:#F0C27A}
       <p class="kor">보와 돌, 그리고 빛</p>
       <p class="lede">천장을 뜯어내 서까래를 드러냈습니다. 살문을 모두 열면 복도 끝까지 빛이 들어오고, 거실과 다이닝이 하나로 이어집니다. 돌벽은 손대지 않은 그대로입니다.</p>
     </div>
-    <div class="rv"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-living"><img class="bd" src="images/in-living.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-living.jpg" alt="안거리 거실 — 살문을 모두 열면 복도 끝까지 빛이 듭니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>안거리 거실</b><span>살문을 모두 열면 복도 끝까지 빛이 듭니다</span></figcaption></figure><figure class="sld" data-img="in-floor"><img class="bd" data-src="images/in-floor.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/in-floor.jpg" alt="원목 마루 — 손대지 않은 돌벽과 깔개 하나" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>원목 마루</b><span>손대지 않은 돌벽과 깔개 하나</span></figcaption></figure><figure class="sld" data-img="in-hall"><img class="bd" data-src="images/in-hall.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-hall.jpg" alt="긴 복도 — 복도 끝에 다이닝이 놓입니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>긴 복도</b><span>복도 끝에 다이닝이 놓입니다</span></figcaption></figure><figure class="sld" data-img="in-beam"><img class="bd" data-src="images/in-beam.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-beam.jpg" alt="드러난 서까래 — 천장을 뜯어내 옛 구조를 그대로 두었습니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>드러난 서까래</b><span>천장을 뜯어내 옛 구조를 그대로 두었습니다</span></figcaption></figure><figure class="sld" data-img="in-stone-door"><img class="bd" data-src="images/in-stone-door.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-stone-door.jpg" alt="돌과 나무 — 현무암 벽에 살문을 끼웠습니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌과 나무</b><span>현무암 벽에 살문을 끼웠습니다</span></figcaption></figure><figure class="sld" data-img="in-door-garden"><img class="bd" data-src="images/in-door-garden.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-door-garden.jpg" alt="열리는 문 — 문을 열면 바로 정원입니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>열리는 문</b><span>문을 열면 바로 정원입니다</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button><button class="dot" aria-label="6번째 사진"></button></div><span class="ct"><b>01</b> / 06</span></div></div></div>
+    <div class="rv"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-living"><img class="bd" src="images/in-living.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-living.jpg" alt="안거리 거실 — 살문을 모두 열면 복도 끝까지 빛이 듭니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>안거리 거실</b><span>살문을 모두 열면 복도 끝까지 빛이 듭니다</span></figcaption></figure><figure class="sld" data-img="in-floor"><img class="bd" data-src="images/in-floor.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/in-floor.jpg" alt="원목 마루 — 손대지 않은 돌벽과 깔개 하나" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>원목 마루</b><span>손대지 않은 돌벽과 깔개 하나</span></figcaption></figure><figure class="sld" data-img="in-hall"><img class="bd" data-src="images/in-hall.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-hall.jpg" alt="긴 복도 — 복도 끝에 다이닝이 놓입니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>긴 복도</b><span>복도 끝에 다이닝이 놓입니다</span></figcaption></figure><figure class="sld" data-img="in-beam"><img class="bd" data-src="images/in-beam.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-beam.jpg" alt="드러난 서까래 — 천장을 뜯어내 옛 구조를 그대로 두었습니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>드러난 서까래</b><span>천장을 뜯어내 옛 구조를 그대로 두었습니다</span></figcaption></figure><figure class="sld" data-img="in-stone-door"><img class="bd" data-src="images/in-stone-door.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-stone-door.jpg" alt="돌과 나무 — 현무암 벽에 살문을 끼웠습니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌과 나무</b><span>현무암 벽에 살문을 끼웠습니다</span></figcaption></figure><figure class="sld" data-img="in-door-garden"><img class="bd" data-src="images/in-door-garden.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-door-garden.jpg" alt="열리는 문 — 문을 열면 바로 정원입니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>열리는 문</b><span>문을 열면 바로 정원입니다</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 06</span></div></div></div>
   </div>
 </section>
 
@@ -364,7 +369,7 @@ footer .todo{color:#F0C27A}
       <h2 class="title">침실</h2>
       <p class="lede">같은 방이 하나도 없습니다. 돌벽을 등진 방, 서까래가 낮게 내려앉은 방, 화장대를 둔 방, 요를 더 깔 수 있는 방. 원목 프레임 위에 흰 침구만 올렸습니다.</p>
     </div>
-    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-room-vanity"><img class="bd" src="images/in-room-vanity.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-room-vanity.jpg" alt="침실 — 화장대와 라운드 미러를 둔 방" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>화장대와 라운드 미러를 둔 방</span></figcaption></figure><figure class="sld" data-img="in-room-beam"><img class="bd" data-src="images/in-room-beam.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-beam.jpg" alt="침실 — 서까래가 낮게 내려앉은 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>서까래가 낮게 내려앉은 방</span></figcaption></figure><figure class="sld" data-img="in-room-window"><img class="bd" data-src="images/in-room-window.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-window.jpg" alt="침실 — 창을 마주 보고 눕는 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>창을 마주 보고 눕는 방</span></figcaption></figure><figure class="sld" data-img="in-room-blind"><img class="bd" data-src="images/in-room-blind.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-blind.jpg" alt="침실 — 요를 더 깔 수 있는 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>요를 더 깔 수 있는 방</span></figcaption></figure><figure class="sld" data-img="in-room-stone"><img class="bd" data-src="images/in-room-stone.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-stone.jpg" alt="침실 — 현무암 벽 옆에 놓인 침대" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>현무암 벽 옆에 놓인 침대</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button></div><span class="ct"><b>01</b> / 05</span></div></div></div>
+    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-room-vanity"><img class="bd" src="images/in-room-vanity.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-room-vanity.jpg" alt="침실 — 화장대와 라운드 미러를 둔 방" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>화장대와 라운드 미러를 둔 방</span></figcaption></figure><figure class="sld" data-img="in-room-beam"><img class="bd" data-src="images/in-room-beam.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-beam.jpg" alt="침실 — 서까래가 낮게 내려앉은 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>서까래가 낮게 내려앉은 방</span></figcaption></figure><figure class="sld" data-img="in-room-window"><img class="bd" data-src="images/in-room-window.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-window.jpg" alt="침실 — 창을 마주 보고 눕는 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>창을 마주 보고 눕는 방</span></figcaption></figure><figure class="sld" data-img="in-room-blind"><img class="bd" data-src="images/in-room-blind.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-blind.jpg" alt="침실 — 요를 더 깔 수 있는 방" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>요를 더 깔 수 있는 방</span></figcaption></figure><figure class="sld" data-img="in-room-stone"><img class="bd" data-src="images/in-room-stone.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-room-stone.jpg" alt="침실 — 현무암 벽 옆에 놓인 침대" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>침실</b><span>현무암 벽 옆에 놓인 침대</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 05</span></div></div></div>
   </div>
 </section>
 
@@ -376,7 +381,7 @@ footer .todo{color:#F0C27A}
       <p class="kor">열 명이 둘러앉는 별채</p>
       <p class="lede">마당 건너 별채는 통째로 다이닝 홀입니다. 통원목 한 장으로 짠 긴 테이블, 벽을 스크린 삼는 빔프로젝터, 보조 주방. 허문 돌벽은 메우지 않고 그대로 두었습니다.</p>
     </div>
-    <div class="rv"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="bg-table"><img class="bd" src="images/bg-table.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/bg-table.jpg" alt="밖거리 다이닝 — 통원목 한 장으로 짠 긴 테이블" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밖거리 다이닝</b><span>통원목 한 장으로 짠 긴 테이블</span></figcaption></figure><figure class="sld" data-img="bg-projector"><img class="bd" data-src="images/bg-projector.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-projector.jpg" alt="빔프로젝터 — 벽을 스크린 삼아 영화를 봅니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>빔프로젝터</b><span>벽을 스크린 삼아 영화를 봅니다</span></figcaption></figure><figure class="sld" data-img="bg-kitchen"><img class="bd" data-src="images/bg-kitchen.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-kitchen.jpg" alt="보조 주방 — 여럿이 모일 때 쓰는 공간" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>보조 주방</b><span>여럿이 모일 때 쓰는 공간</span></figcaption></figure><figure class="sld" data-img="bg-wood"><img class="bd" data-src="images/bg-wood.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/bg-wood.jpg" alt="원목 테이블 — 둘러앉으면 열 명이 들어갑니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>원목 테이블</b><span>둘러앉으면 열 명이 들어갑니다</span></figcaption></figure><figure class="sld" data-img="bg-round-in"><img class="bd" data-src="images/bg-round-in.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-round-in.jpg" alt="둥근 창 — 창 너머로 중정이 들어옵니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>둥근 창</b><span>창 너머로 중정이 들어옵니다</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button></div><span class="ct"><b>01</b> / 05</span></div></div></div>
+    <div class="rv"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="bg-table"><img class="bd" src="images/bg-table.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/bg-table.jpg" alt="밖거리 다이닝 — 통원목 한 장으로 짠 긴 테이블" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밖거리 다이닝</b><span>통원목 한 장으로 짠 긴 테이블</span></figcaption></figure><figure class="sld" data-img="bg-projector"><img class="bd" data-src="images/bg-projector.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-projector.jpg" alt="빔프로젝터 — 벽을 스크린 삼아 영화를 봅니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>빔프로젝터</b><span>벽을 스크린 삼아 영화를 봅니다</span></figcaption></figure><figure class="sld" data-img="bg-kitchen"><img class="bd" data-src="images/bg-kitchen.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-kitchen.jpg" alt="보조 주방 — 여럿이 모일 때 쓰는 공간" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>보조 주방</b><span>여럿이 모일 때 쓰는 공간</span></figcaption></figure><figure class="sld" data-img="bg-wood"><img class="bd" data-src="images/bg-wood.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/bg-wood.jpg" alt="원목 테이블 — 둘러앉으면 열 명이 들어갑니다" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>원목 테이블</b><span>둘러앉으면 열 명이 들어갑니다</span></figcaption></figure><figure class="sld" data-img="bg-round-in"><img class="bd" data-src="images/bg-round-in.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-round-in.jpg" alt="둥근 창 — 창 너머로 중정이 들어옵니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>둥근 창</b><span>창 너머로 중정이 들어옵니다</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 05</span></div></div></div>
   </div>
 </section>
 
@@ -387,7 +392,7 @@ footer .todo{color:#F0C27A}
       <h2 class="title">주방과 욕실</h2>
       <p class="lede">장을 봐 와서 그대로 차려 먹기 좋은 주방, 짙은 그린 타일을 깐 욕실, 원목을 깎아 앉힌 세면대. 수영장에서 바로 이어지는 야외 샤워도 있습니다.</p>
     </div>
-    <div class="rv"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-kitchen"><img class="bd" src="images/in-kitchen.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-kitchen.jpg" alt="주방 — 장을 봐 와서 그대로 차려 먹기 좋습니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>주방</b><span>장을 봐 와서 그대로 차려 먹기 좋습니다</span></figcaption></figure><figure class="sld" data-img="in-bath-stone"><img class="bd" data-src="images/in-bath-stone.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-stone.jpg" alt="돌벽 욕실 — 벽은 제주 현무암 그대로" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌벽 욕실</b><span>벽은 제주 현무암 그대로</span></figcaption></figure><figure class="sld" data-img="in-bath-tub"><img class="bd" data-src="images/in-bath-tub.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-tub.jpg" alt="욕조 — 하루를 담그고 끝내는 자리" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>욕조</b><span>하루를 담그고 끝내는 자리</span></figcaption></figure><figure class="sld" data-img="in-bath-green"><img class="bd" data-src="images/in-bath-green.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-green.jpg" alt="욕실 — 짙은 그린 타일과 패턴 바닥" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>욕실</b><span>짙은 그린 타일과 패턴 바닥</span></figcaption></figure><figure class="sld" data-img="in-amenity"><img class="bd" data-src="images/in-amenity.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/in-amenity.jpg" alt="어메니티 — 돌벽에 걸친 원목 선반" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>어메니티</b><span>돌벽에 걸친 원목 선반</span></figcaption></figure><figure class="sld" data-img="bg-shower"><img class="bd" data-src="images/bg-shower.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-shower.jpg" alt="야외 샤워 — 수영장에서 바로 이어집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>야외 샤워</b><span>수영장에서 바로 이어집니다</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button><button class="dot" aria-label="6번째 사진"></button></div><span class="ct"><b>01</b> / 06</span></div></div></div>
+    <div class="rv"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="in-kitchen"><img class="bd" src="images/in-kitchen.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/in-kitchen.jpg" alt="주방 — 장을 봐 와서 그대로 차려 먹기 좋습니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>주방</b><span>장을 봐 와서 그대로 차려 먹기 좋습니다</span></figcaption></figure><figure class="sld" data-img="in-bath-stone"><img class="bd" data-src="images/in-bath-stone.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-stone.jpg" alt="돌벽 욕실 — 벽은 제주 현무암 그대로" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>돌벽 욕실</b><span>벽은 제주 현무암 그대로</span></figcaption></figure><figure class="sld" data-img="in-bath-tub"><img class="bd" data-src="images/in-bath-tub.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-tub.jpg" alt="욕조 — 하루를 담그고 끝내는 자리" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>욕조</b><span>하루를 담그고 끝내는 자리</span></figcaption></figure><figure class="sld" data-img="in-bath-green"><img class="bd" data-src="images/in-bath-green.jpg" alt="" aria-hidden="true" width="1050" height="1400" decoding="async"><img class="ph" data-src="images/in-bath-green.jpg" alt="욕실 — 짙은 그린 타일과 패턴 바닥" width="1050" height="1400" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>욕실</b><span>짙은 그린 타일과 패턴 바닥</span></figcaption></figure><figure class="sld" data-img="in-amenity"><img class="bd" data-src="images/in-amenity.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/in-amenity.jpg" alt="어메니티 — 돌벽에 걸친 원목 선반" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>어메니티</b><span>돌벽에 걸친 원목 선반</span></figcaption></figure><figure class="sld" data-img="bg-shower"><img class="bd" data-src="images/bg-shower.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/bg-shower.jpg" alt="야외 샤워 — 수영장에서 바로 이어집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>야외 샤워</b><span>수영장에서 바로 이어집니다</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 06</span></div></div></div>
   </div>
 </section>
 
@@ -399,7 +404,7 @@ footer .todo{color:#F0C27A}
       <h2 class="title">불을 피우는 시간</h2>
       <p class="lede">해가 지면 담 위로 전구가 켜지고, 돌을 쌓아 만든 화덕에 불을 넣습니다. 조명이 잠긴 물에 다시 들어가도 좋습니다. 물소리와 장작 소리 말고는 아무 소리도 나지 않습니다.</p>
     </div>
-    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000"><div class="stage" tabindex="0" role="group" aria-roledescription="슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="out-night-pool"><img class="bd" src="images/out-night-pool.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/out-night-pool.jpg" alt="밤 수영 — 조명이 잠긴 물에 들어가 보세요" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밤 수영</b><span>조명이 잠긴 물에 들어가 보세요</span></figcaption></figure><figure class="sld" data-img="out-fire"><img class="bd" data-src="images/out-fire.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-fire.jpg" alt="화덕 — 돌을 쌓아 만든 불자리 — 1회 20,000원" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>화덕</b><span>돌을 쌓아 만든 불자리 — 1회 20,000원</span></figcaption></figure><figure class="sld" data-img="out-night-lamp"><img class="bd" data-src="images/out-night-lamp.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-night-lamp.jpg" alt="저녁 — 담 위로 전구가 켜지는 시간" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>저녁</b><span>담 위로 전구가 켜지는 시간</span></figcaption></figure><figure class="sld" data-img="out-night-path"><img class="bd" data-src="images/out-night-path.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-night-path.jpg" alt="밤의 길 — 조명이 디딤돌을 하나씩 비춥니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밤의 길</b><span>조명이 디딤돌을 하나씩 비춥니다</span></figcaption></figure><figure class="sld" data-img="out-dusk-facade"><img class="bd" data-src="images/out-dusk-facade.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-dusk-facade.jpg" alt="해질녘 — 창에 불이 들어오면 돌집이 달라집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>해질녘</b><span>창에 불이 들어오면 돌집이 달라집니다</span></figcaption></figure><button class="sp" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><button class="sn" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="show-ui"><div class="dots"><button class="dot on" aria-label="1번째 사진"></button><button class="dot" aria-label="2번째 사진"></button><button class="dot" aria-label="3번째 사진"></button><button class="dot" aria-label="4번째 사진"></button><button class="dot" aria-label="5번째 사진"></button></div><span class="ct"><b>01</b> / 05</span></div></div></div>
+    <div class="rv" style="margin-top:clamp(30px,4vw,48px)"><div class="show" data-auto="5000" style="--d:5000ms"><div class="stage" role="group" aria-roledescription="자동 슬라이드쇼" aria-label="사진 슬라이드쇼"><figure class="sld on" data-img="out-night-pool"><img class="bd" src="images/out-night-pool.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" src="images/out-night-pool.jpg" alt="밤 수영 — 조명이 잠긴 물에 들어가 보세요" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밤 수영</b><span>조명이 잠긴 물에 들어가 보세요</span></figcaption></figure><figure class="sld" data-img="out-fire"><img class="bd" data-src="images/out-fire.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-fire.jpg" alt="화덕 — 돌을 쌓아 만든 불자리 — 1회 20,000원" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>화덕</b><span>돌을 쌓아 만든 불자리 — 1회 20,000원</span></figcaption></figure><figure class="sld" data-img="out-night-lamp"><img class="bd" data-src="images/out-night-lamp.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-night-lamp.jpg" alt="저녁 — 담 위로 전구가 켜지는 시간" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>저녁</b><span>담 위로 전구가 켜지는 시간</span></figcaption></figure><figure class="sld" data-img="out-night-path"><img class="bd" data-src="images/out-night-path.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-night-path.jpg" alt="밤의 길 — 조명이 디딤돌을 하나씩 비춥니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>밤의 길</b><span>조명이 디딤돌을 하나씩 비춥니다</span></figcaption></figure><figure class="sld" data-img="out-dusk-facade"><img class="bd" data-src="images/out-dusk-facade.jpg" alt="" aria-hidden="true" width="1400" height="1050" decoding="async"><img class="ph" data-src="images/out-dusk-facade.jpg" alt="해질녘 — 창에 불이 들어오면 돌집이 달라집니다" width="1400" height="1050" sizes="(min-width:1100px) 70vw, 94vw" decoding="async"><figcaption><b>해질녘</b><span>창에 불이 들어오면 돌집이 달라집니다</span></figcaption></figure></div><div class="prog"><i></i></div><div class="show-ui"><span class="ct"><b>01</b> / 05</span></div></div></div>
   </div>
 </section>
 
@@ -415,8 +420,8 @@ footer .todo{color:#F0C27A}
         <thead><tr><th>객실명</th><th>주중 (일~목)</th><th>주말 &middot; 공휴일</th></tr></thead>
         <tbody><tr>
           <th>고산스테이 돌집 독채<small>안거리 + 밖거리 + 중정 전체</small></th>
-          <td class="won">250,000<small>원 / 1박</small></td>
-          <td class="won">280,000<small>원 / 1박</small></td>
+          <td class="won" data-l="주중 (일~목)">250,000<small>원 / 1박</small></td>
+          <td class="won" data-l="주말 · 공휴일">280,000<small>원 / 1박</small></td>
         </tr></tbody>
       </table>
     </div>
@@ -515,14 +520,6 @@ footer .todo{color:#F0C27A}
   <a class="kk" href="#reservation" id="kkQuick"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="11" rx="9" ry="7.4" fill="#3C1E1E"/><path d="M8 17.4 6.6 21l4.2-2.6z" fill="#3C1E1E"/></svg>톡상담</a>
 </div>
 
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
-  <button class="cl" id="lbCl" aria-label="닫기">&times;</button>
-  <button class="pv" id="lbPv" aria-label="이전 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <img id="lbIm" src="" alt="">
-  <p class="cap"><b id="lbT"></b><span id="lbD"></span></p>
-  <button class="nx" id="lbNx" aria-label="다음 사진"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
-</div>
-
 <script>
 (function(){
   var CAP = {"hero-dusk": ["블루아워", "해가 넘어가면 물이 하늘색을 그대로 받아 둡니다"], "out-pool-wide": ["중정 수영장", "담이 둘러싼 데크 한가운데, 길게 누운 물"], "out-pool-close": ["물빛", "차양막이 햇빛을 걸러 물을 옥색으로 바꿉니다"], "out-pool-sail": ["차양막", "한여름에도 그늘 아래에서 머물 수 있습니다"], "out-lounge": ["풀사이드", "빈백과 러그를 깔아 둔 물가 자리"], "out-beanbag": ["오후의 중정", "젖은 발로 그대로 앉아도 괜찮습니다"], "out-court-day": ["담 안쪽", "밖에서 보이지 않는, 한 팀만의 마당"], "out-entry": ["들어서는 길", "현무암 디딤돌이 현관까지 이어집니다"], "out-table": ["돌담 아래", "바람을 끊어 주는 담 앞 야외 테이블"], "out-view": ["마당 끝", "돌담 너머로 오름이 보이는 자리"], "out-path": ["정원길", "억새와 돌 사이로 난 길"], "out-palm": ["야자수 마당", "제주 햇빛에서 자란 나무들"], "out-fire": ["화덕", "돌을 쌓아 만든 불자리 — 1회 20,000원"], "out-night-lamp": ["저녁", "담 위로 전구가 켜지는 시간"], "out-night-path": ["밤의 길", "조명이 디딤돌을 하나씩 비춥니다"], "out-night-pool": ["밤 수영", "조명이 잠긴 물에 들어가 보세요"], "out-dusk-facade": ["해질녘", "창에 불이 들어오면 돌집이 달라집니다"], "out-aerial": ["고산 들판", "밭과 바다 사이, 돌담이 한 번 꺾이는 자리"], "out-aerial-top": ["위에서 본 집", "ㄷ자로 앉은 안거리와 밖거리, 가운데 중정"], "in-living": ["안거리 거실", "살문을 모두 열면 복도 끝까지 빛이 듭니다"], "in-floor": ["원목 마루", "손대지 않은 돌벽과 깔개 하나"], "in-hall": ["긴 복도", "복도 끝에 다이닝이 놓입니다"], "in-beam": ["드러난 서까래", "천장을 뜯어내 옛 구조를 그대로 두었습니다"], "in-sliding": ["살문 너머", "문 하나로 침실과 거실이 나뉩니다"], "in-room-vanity": ["침실", "화장대와 라운드 미러를 둔 방"], "in-room-beam": ["침실", "서까래가 낮게 내려앉은 방"], "in-room-window": ["침실", "창을 마주 보고 눕는 방"], "in-room-blind": ["침실", "요를 더 깔 수 있는 방"], "in-room-plaster": ["침실", "미장벽을 등진 방"], "in-room-stone": ["침실", "현무암 벽 옆에 놓인 침대"], "in-kitchen": ["주방", "장을 봐 와서 그대로 차려 먹기 좋습니다"], "in-bath-green": ["욕실", "짙은 그린 타일과 패턴 바닥"], "in-bath-basin": ["세면대", "원목을 깎아 그대로 앉혔습니다"], "in-bath-stone": ["돌벽 욕실", "벽은 제주 현무암 그대로"], "in-bath-tub": ["욕조", "하루를 담그고 끝내는 자리"], "in-door-garden": ["열리는 문", "문을 열면 바로 정원입니다"], "in-stone-door": ["돌과 나무", "현무암 벽에 살문을 끼웠습니다"], "in-mirror": ["라운드 미러", "팜파스 한 단을 올려 두었습니다"], "in-books": ["책 한 칸", "묵는 동안 읽을 책 몇 권"], "in-amenity": ["어메니티", "돌벽에 걸친 원목 선반"], "in-glassblock": ["유리블록 창", "옛 창을 그대로 남겼습니다"], "in-window-view": ["창", "앉은키에 맞춰 낸 중정 쪽 창"], "in-nook": ["구석 자리", "빛이 가장 오래 머무는 곳"], "bg-table": ["밖거리 다이닝", "통원목 한 장으로 짠 긴 테이블"], "bg-projector": ["빔프로젝터", "벽을 스크린 삼아 영화를 봅니다"], "bg-kitchen": ["보조 주방", "여럿이 모일 때 쓰는 공간"], "bg-stone": ["돌벽 그대로", "허문 벽을 메우지 않고 남겼습니다"], "bg-wood": ["원목 테이블", "둘러앉으면 열 명이 들어갑니다"], "bg-round-in": ["둥근 창", "창 너머로 중정이 들어옵니다"], "bg-round": ["창 하나", "돌벽에 뚫린 원형 개구부"], "bg-shower": ["야외 샤워", "수영장에서 바로 이어집니다"], "bg-night": ["밤의 밖거리", "불을 켜면 또 다른 공간이 됩니다"]};
@@ -582,41 +579,13 @@ footer .todo{color:#F0C27A}
     rvs.forEach(function(e){ io.observe(e); });
   }
 
-  /* ---------- lightbox ---------- */
-  var lb = document.getElementById('lb'), lbIm = document.getElementById('lbIm');
-  var lbT = document.getElementById('lbT'), lbD = document.getElementById('lbD');
-  var lbList = [], lbI = 0, lbPrev = null;
-  function lbShow(i){
-    lbI = (i + lbList.length) % lbList.length;
-    var c = CAP[lbList[lbI]] || ['',''];
-    lbIm.src = 'images/' + lbList[lbI] + '.jpg'; lbIm.alt = c[0];
-    lbT.textContent = c[0]; lbD.textContent = c[1];
-  }
-  function lbOpen(list, i){
-    lbList = list; lbPrev = document.activeElement; lbShow(i);
-    lb.classList.add('open'); requestAnimationFrame(function(){ lb.classList.add('show'); });
-    document.body.style.overflow = 'hidden'; document.getElementById('lbCl').focus();
-  }
-  function lbClose(){
-    lb.classList.remove('show');
-    setTimeout(function(){ lb.classList.remove('open'); lbIm.src=''; }, 260);
-    document.body.style.overflow=''; if (lbPrev) lbPrev.focus();
-    [].slice.call(document.querySelectorAll('.show')).forEach(function(s){ if (s.__resume) s.__resume(); });
-  }
-  document.getElementById('lbCl').addEventListener('click', lbClose);
-  document.getElementById('lbPv').addEventListener('click', function(){ lbShow(lbI-1); });
-  document.getElementById('lbNx').addEventListener('click', function(){ lbShow(lbI+1); });
-  lb.addEventListener('click', function(e){ if (e.target === lb) lbClose(); });
-
-  /* ---------- slideshows ---------- */
+  /* ---------- 자동 슬라이드쇼 (조작 없음) ---------- */
   [].slice.call(document.querySelectorAll('.show')).forEach(function(sw){
-    var stage  = sw.querySelector('.stage');
     var slides = [].slice.call(sw.querySelectorAll('.sld'));
-    var dots   = [].slice.call(sw.querySelectorAll('.dot'));
     var ctN    = sw.querySelector('.ct b');
-    var names  = slides.map(function(s){ return s.getAttribute('data-img'); });
-    var delay  = parseInt(sw.getAttribute('data-auto'), 10) || 6500;
-    var i = 0, timer = null, inView = false, resume = null;
+    var bar    = sw.querySelector('.prog');
+    var delay  = parseInt(sw.getAttribute('data-auto'), 10) || 5000;
+    var i = 0, timer = null, inView = false;
 
     function load(k){
       var s = slides[(k + slides.length) % slides.length];
@@ -624,47 +593,26 @@ footer .todo{color:#F0C27A}
         img.src = img.getAttribute('data-src'); img.removeAttribute('data-src');
       });
     }
+    function restartBar(){
+      if (!bar) return;
+      sw.classList.remove('run');
+      void bar.offsetWidth;          /* 애니메이션 리셋 */
+      sw.classList.add('run');
+    }
     function set(n){
       i = (n + slides.length) % slides.length;
       slides.forEach(function(s,k){ s.classList.toggle('on', k === i); });
-      dots.forEach(function(d,k){ d.classList.toggle('on', k === i); });
       if (ctN) ctN.textContent = ('0' + (i+1)).slice(-2);
       load(i); load(i+1); load(i-1);
+      restartBar();
     }
-    function stop(){ if (timer) { clearInterval(timer); timer = null; } }
-    function play(){ stop(); if (reduce || !inView) return; timer = setInterval(function(){ set(i+1); }, delay); }
-    function nudge(){ stop(); clearTimeout(resume); resume = setTimeout(play, 2500); }
+    function stop(){ if (timer) { clearInterval(timer); timer = null; } sw.classList.remove('run'); }
+    function play(){
+      stop(); if (reduce || !inView) return;
+      restartBar();
+      timer = setInterval(function(){ set(i+1); }, delay);
+    }
 
-    sw.querySelector('.sp').addEventListener('click', function(e){ e.stopPropagation(); set(i-1); nudge(); });
-    sw.querySelector('.sn').addEventListener('click', function(e){ e.stopPropagation(); set(i+1); nudge(); });
-    dots.forEach(function(d,k){ d.addEventListener('click', function(){ set(k); nudge(); }); });
-
-    /* 스와이프 */
-    var x0 = null, y0 = null, swiped = false;
-    stage.addEventListener('touchstart', function(e){
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; swiped = false; stop();
-    }, {passive:true});
-    stage.addEventListener('touchmove', function(e){
-      if (x0 === null) return;
-      var dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
-      if (Math.abs(dx) > 14 && Math.abs(dx) > Math.abs(dy)) swiped = true;
-    }, {passive:true});
-    stage.addEventListener('touchend', function(e){
-      if (x0 === null) return;
-      var dx = e.changedTouches[0].clientX - x0;
-      if (swiped && Math.abs(dx) > 45) set(dx < 0 ? i+1 : i-1);
-      x0 = null; nudge();
-    });
-
-    stage.addEventListener('click', function(){ if (!swiped) lbOpen(names, i); });
-    stage.addEventListener('keydown', function(e){
-      if (e.key === 'ArrowLeft') { e.preventDefault(); set(i-1); nudge(); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); set(i+1); nudge(); }
-      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lbOpen(names, i); }
-    });
-
-    /* 화면에 보일 때만 자동재생 */
-    sw.__resume = play;
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function(es){
         es.forEach(function(e){
@@ -673,15 +621,16 @@ footer .todo{color:#F0C27A}
         });
       }, {threshold:.3}).observe(sw);
     } else { inView = true; play(); }
+
+    /* 탭 전환 시 멈췄다가 복귀 */
+    document.addEventListener('visibilitychange', function(){
+      document.hidden ? stop() : play();
+    });
     set(0);
   });
 
   addEventListener('keydown', function(e){
-    if (dw.classList.contains('open') && e.key === 'Escape') return dwClose();
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') lbClose();
-    else if (e.key === 'ArrowLeft') lbShow(lbI-1);
-    else if (e.key === 'ArrowRight') lbShow(lbI+1);
+    if (dw.classList.contains('open') && e.key === 'Escape') dwClose();
   });
 
   /* 카카오톡 ID 복사 */
